@@ -11,7 +11,10 @@ case class Config(
                    dbList:String="",
                    tbList:String="",
                    parallel:String="",
-                   position:String="initial"
+                   position:String="initial",
+                   sourceTopic:String="",
+                   groupId:String=""
+
                  )
 
 
@@ -22,12 +25,12 @@ object Config {
     val parser = new scopt.OptionParser[Config](programName) {
       head(programName, "1.0")
       opt[String]('b', "brokerList").required().action((x, config) => config.copy(brokerList = x)).text("kafka broker list,sep comma")
-      opt[String]('t', "sinkTopic").required().action((x, config) => config.copy(sinkTopic = x)).text("kafka topic")
       opt[String]('c', "checkpointDir").required().action((x, config) => config.copy(checkpointDir = x)).text("checkpoint dir")
       opt[String]('l', "checkpointInterval").optional().action((x, config) => config.copy(checkpointInterval = x)).text("checkpoint interval: default 60 seconds")
 
       programName match {
         case "MySQLCDC" =>
+          opt[String]('t', "sinkTopic").required().action((x, config) => config.copy(sinkTopic = x)).text("kafka topic")
           opt[String]('h', "host").required().action((x, config) => config.copy(host = x)).text("mysql hostname, eg. localhost:3306")
           opt[String]('u', "username").required().action((x, config) => config.copy(username = x)).text("mysql username")
           opt[String]('P', "pwd").required().action((x, config) => config.copy(pwd = x)).text("mysql password")
@@ -35,7 +38,9 @@ object Config {
           opt[String]('T', "tbList").required().action((x, config) => config.copy(tbList = x)).text("cdc table list: db1.*,db2.*,db3.tb*...,dbn.*")
           opt[String]('p', "parallel").required().action((x, config) => config.copy(parallel = x)).text("cdc source parallel")
           opt[String]('s', "position").optional().action((x, config) => config.copy(position = x)).text("cdc start position: initial or latest,default: initial")
-
+        case "Kafka2Hudi" =>
+          opt[String]('s', "sourceTopic").required().action((x, config) => config.copy(sourceTopic = x)).text("kafka cdc source topic")
+          opt[String]('g', "groupId").required().action((x, config) => config.copy(groupId = x)).text("consumer group id")
         case _ =>
 
       }
