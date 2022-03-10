@@ -150,6 +150,7 @@
             <groupId>org.apache.hudi</groupId>
             <artifactId>hudi-flink-bundle_${scala.binary.version}</artifactId>
             <version>0.10.0</version>
+            <scope>${scope.type}</scope>
         </dependency>
         <dependency>
             <groupId>com.ververica</groupId>
