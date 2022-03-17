@@ -12,7 +12,7 @@ import org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedC
 import org.apache.flink.streaming.api.scala.{DataStream, OutputTag, StreamExecutionEnvironment}
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 import org.apache.flink.api.scala.createTypeInformation
-import org.apache.log4j.LogManager
+import org.apache.logging.log4j.LogManager
 //import org.apache.logging.log4j.LogManager
 import com.google.gson.JsonObject
 import org.apache.flink.configuration.Configuration
@@ -25,6 +25,7 @@ import java.util.Properties
 
 
 object Kafka2Hudi {
+
   private val log = LogManager.getLogger(Kafka2Hudi.getClass)
   private val gson = new GsonBuilder().create
 
@@ -106,9 +107,6 @@ object Kafka2Hudi {
     tEnv.executeSql(HudiTableSql.createTB3(sinkTB3))
 
     val stat =  tEnv.createStatementSet()
-    print(sinkTB1)
-    print(sinkTB2)
-    print(sinkTB3)
     stat.addInsertSql(HudiTableSql.insertTBSQL(sinkTB1,prefix))
     stat.addInsertSql(HudiTableSql.insertTBSQL(sinkTB2,prefix))
     stat.addInsertSql(HudiTableSql.insertTBSQL(sinkTB3,prefix))
