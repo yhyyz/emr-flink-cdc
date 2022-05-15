@@ -1,7 +1,7 @@
 package com.aws.analytics.sql
 
 object HudiTableSql {
-  def createTB1(sinkTB:String)={
+  def createTB1(s3Path:String,sinkTB:String)={
       s"""CREATE TABLE  $sinkTB(
          |id string,
          |name string,
@@ -12,7 +12,7 @@ object HudiTableSql {
          |)PARTITIONED BY (`logday`,`hh`)
          |WITH (
          |  'connector' = 'hudi',
-         |  'path' = 's3a://app-util/cdc-data/$sinkTB/',
+         |  'path' = '$s3Path/$sinkTB/',
          |  'table.type' = 'COPY_ON_WRITE',
          |  'write.precombine.field' = 'modify_time',
          |  'write.operation' = 'upsert',
@@ -28,7 +28,7 @@ object HudiTableSql {
          |  )
       """.stripMargin
   }
-  def createTB2(sinkTB:String)={
+  def createTB2(s3Path:String,sinkTB:String)={
     s"""CREATE TABLE  $sinkTB(
        |id string,
        |name string,
@@ -37,7 +37,7 @@ object HudiTableSql {
        |)PARTITIONED BY (`logday`,`hh`)
        |WITH (
        |  'connector' = 'hudi',
-       |  'path' = 's3a://app-util/cdc-data/$sinkTB/',
+       |  'path' = '$s3Path/$sinkTB/',
        |  'table.type' = 'COPY_ON_WRITE',
        |  'write.precombine.field' = 'name',
        |  'write.operation' = 'upsert',
@@ -53,7 +53,7 @@ object HudiTableSql {
        |  )
       """.stripMargin
   }
-  def createTB3(sinkTB:String)={
+  def createTB3(s3Path:String,sinkTB:String)={
     s"""CREATE TABLE  $sinkTB(
        |id string,
        |name string,
@@ -65,7 +65,7 @@ object HudiTableSql {
        |)PARTITIONED BY (`logday`,`hh`)
        |WITH (
        |  'connector' = 'hudi',
-       |  'path' = 's3a://app-util/cdc-data/$sinkTB/',
+       |  'path' = '$s3Path/$sinkTB/',
        |  'table.type' = 'COPY_ON_WRITE',
        |  'write.precombine.field' = 'modify_time',
        |  'write.operation' = 'upsert',

@@ -33,6 +33,7 @@ object MySQLCDC {
       .tableList(params.tbList)
       .startupOptions(startPos)
       .deserializer(new JsonDebeziumDeserializationSchema).build
+
   }
 
   def createKafkaSink(params:Config)={
