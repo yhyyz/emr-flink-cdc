@@ -18,7 +18,7 @@ import org.apache.flink.streaming.api.scala._
 import java.nio.charset.StandardCharsets
 
 object MySQLCDC {
-  def createCDCSource(params:Config): MySqlSource[String]={
+  def createCDCSource(params:Config,sid:String): MySqlSource[String]={
     var startPos=StartupOptions.initial()
     if (params.position == "latest"){
       startPos= StartupOptions.latest()
@@ -32,9 +32,12 @@ object MySQLCDC {
       .databaseList(params.dbList)
       .tableList(params.tbList)
       .startupOptions(startPos)
+      .serverId(sid)
       .deserializer(new JsonDebeziumDeserializationSchema).build
 
   }
+
+
 
   def createKafkaSink(params:Config)={
     val kafkaProducerProperties = Map(
@@ -72,9 +75,10 @@ object MySQLCDC {
     val rocksBackend: StateBackend = new RocksDBStateBackend(params.checkpointDir)
     env.setStateBackend(rocksBackend)
 
-    env.fromSource(createCDCSource(params), WatermarkStrategy.noWatermarks(), "mysql cdc source")
+    env.fromSource(createCDCSource(params,"1"), WatermarkStrategy.noWatermarks(), "mysql cdc source")
       .addSink(createKafkaSink(params)).name("msk sink")
       .setParallelism(params.parallel.toInt)
+
     env.execute("MySQL Binlog CDC")
   }
 

@@ -54,6 +54,17 @@ object Config {
           opt[String]('T', "tbList").required().action((x, config) => config.copy(tbList = x)).text("cdc table list: db1.*,db2.*,db3.tb*...,dbn.*")
           opt[String]('p', "parallel").optional().action((x, config) => config.copy(parallel = x)).text("cdc source parallel")
           opt[String]('s', "position").optional().action((x, config) => config.copy(position = x)).text("cdc start position: initial or latest,default: initial")
+        case "TemporalJoin" =>
+          opt[String]('b', "brokerList").required().action((x, config) => config.copy(brokerList = x)).text("kafka broker list,sep comma")
+          opt[String]('t', "sourceTopic").required().action((x, config) => config.copy(sourceTopic = x)).text("kafka topic")
+          opt[String]('h', "host").required().action((x, config) => config.copy(host = x)).text("mysql hostname, eg. localhost:3306")
+          opt[String]('u', "username").required().action((x, config) => config.copy(username = x)).text("mysql username")
+          opt[String]('P', "pwd").required().action((x, config) => config.copy(pwd = x)).text("mysql password")
+          opt[String]('d', "dbList").required().action((x, config) => config.copy(dbList = x)).text("cdc database list: db1,db2,..,dbn")
+          opt[String]('T', "tbList").required().action((x, config) => config.copy(tbList = x)).text("cdc table list: db1.*,db2.*,db3.tb*...,dbn.*")
+          opt[String]('p', "parallel").optional().action((x, config) => config.copy(parallel = x)).text("cdc source parallel")
+          opt[String]('s', "position").optional().action((x, config) => config.copy(position = x)).text("cdc start position: initial or latest,default: initial")
+
         case _ =>
 
       }

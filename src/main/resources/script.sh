@@ -1,0 +1,5 @@
+sudo flink run -m yarn-cluster  -yjm 1024 -ytm 2048 -d -ys 4 -p 8 -c  com.aws.analytics.TemporalJoin  /home/hadoop/emr-flink-cdc-1.0-SNAPSHOT.jar -b b-2.common-004.5ybaio.c3.kafka.ap-southeast-1.amazonaws.com:9092 -t mysql_cdc_001 -c s3://app-util/flink/checkpoint/ -l 10 -h workshop-db-test.cszxtewro2cv.ap-southeast-1.rds.amazonaws.com:3306 -u admin -P admin123456 -d cdc_test_db -T cdc_test_db.test_tb_01 -p 4
+
+sudo flink run -m yarn-cluster  -yjm 1024 -ytm 2048 -d -ys 4 -p 8 -c  com.aws.analytics.TemporalJoin  /home/hadoop/emr-flink-cdc-1.0-SNAPSHOT.jar -b b-2.common-004.5ybaio.c3.kafka.ap-southeast-1.amazonaws.com:9092 -t mysql_cdc_001 -c s3://app-util/flink/checkpoint/ -l 300 -h workshop-db-test.cszxtewro2cv.ap-southeast-1.rds.amazonaws.com:3306 -u admin -P admin123456 -d cdc_test_db -T cdc_test_db.test_tb_01 -p 4
+
+{"id":"1","name":"customer"}
