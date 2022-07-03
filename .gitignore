@@ -40,3 +40,5 @@ build.log
 src/test/
 dependency-reduced-pom.xml
 log/
+
+src/main/scala/com/aws/analytics/Kafka2HudiStream.scala
