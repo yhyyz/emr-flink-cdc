@@ -15,7 +15,8 @@ case class Config(
                    sourceTopic:String="",
                    groupId:String="",
                    kdsName: String = "",
-                   kdsRegion: String=""
+                   kdsRegion: String="",
+                   serverId:String=""
 
                  )
 
@@ -40,6 +41,8 @@ object Config {
           opt[String]('T', "tbList").required().action((x, config) => config.copy(tbList = x)).text("cdc table list: db1.*,db2.*,db3.tb*...,dbn.*")
           opt[String]('p', "parallel").optional().action((x, config) => config.copy(parallel = x)).text("cdc source parallel")
           opt[String]('s', "position").optional().action((x, config) => config.copy(position = x)).text("cdc start position: initial or latest,default: initial")
+          opt[String]('e', "serverId").optional().action((x, config) => config.copy(serverId = x)).text("cdc server id")
+
         case "Kafka2Hudi" =>
           opt[String]('b', "brokerList").required().action((x, config) => config.copy(brokerList = x)).text("kafka broker list,sep comma")
           opt[String]('s', "sourceTopic").required().action((x, config) => config.copy(sourceTopic = x)).text("kafka cdc source topic")
