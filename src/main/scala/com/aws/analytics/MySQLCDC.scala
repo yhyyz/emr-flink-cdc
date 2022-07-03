@@ -12,10 +12,10 @@ import org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedC
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaProducer, KafkaSerializationSchema}
 import org.apache.kafka.clients.producer.ProducerRecord
-
 import org.apache.flink.streaming.api.scala._
 
 import java.nio.charset.StandardCharsets
+import java.util.Properties
 
 object MySQLCDC {
   def createCDCSource(params:Config): MySqlSource[String]={
@@ -24,6 +24,8 @@ object MySQLCDC {
       startPos= StartupOptions.latest()
     }
 
+    val prop = new Properties()
+    prop.setProperty("decimal.handling.mode","string")
     MySqlSource.builder[String]
       .hostname(params.host.split(":")(0))
       .port(params.host.split(":")(1).toInt)
@@ -33,6 +35,7 @@ object MySQLCDC {
       .tableList(params.tbList)
       .startupOptions(startPos)
       .serverId(params.serverId)
+      .debeziumProperties(prop)
       .deserializer(new JsonDebeziumDeserializationSchema).build
 
   }
